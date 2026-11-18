@@ -1,4 +1,5 @@
-// Controlador de reservas y contacto: eventos de los formularios y flujo hacia el modelo.
+// Controlador de reservas y contacto: eventos de los formularios y flujo hacia el modelo
+
 import { buscarFinca } from '../modelo/fincaModelo.js';
 import { crearReserva } from '../modelo/reservaModelo.js';
 import { calcularCostoReserva, validarReserva, validarContacto } from '../modelo/reglas.js';

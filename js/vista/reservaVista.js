@@ -1,4 +1,4 @@
-// Vista de reservas y contacto: lee los formularios y dibuja los mensajes.
+// Vista de reservas y contacto: lee los formularios y dibuja los mensajes
 import { crearElemento, crearLineaDato, formatearPrecio } from './utilidadesVista.js';
 
 const porId = (id) => document.getElementById(id);
@@ -13,8 +13,7 @@ export const elementos = {
 
 const resultadoReserva = porId('resultado-reserva');
 
-// Los mensajes de error los escribe la página (no el navegador), por eso se desactiva la validación nativa
-elementos.formReserva.noValidate = true;
+// Los mensajes de error los escribe la página 
 elementos.formContacto.noValidate = true;
 
 // Párrafo de error que se coloca justo antes del botón de enviar

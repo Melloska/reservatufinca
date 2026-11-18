@@ -1,4 +1,4 @@
-// Utilidades de la vista: crean elementos y dan formato. No guardan datos.
+// Utilidades de la vista: crean elementos y dan formato. No guardan datos
 
 // Crea un elemento con texto seguro (textContent) y una clase opcional
 export function crearElemento(etiqueta, texto, clase) {

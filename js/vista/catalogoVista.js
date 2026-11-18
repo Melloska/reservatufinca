@@ -1,4 +1,5 @@
-// Vista del catálogo: dibuja y lee el DOM. No guarda datos ni reglas del negocio.
+// Vista del catálogo: dibuja y lee el DOM. No guarda datos ni reglas del negocio
+
 import { CATEGORIAS } from '../modelo/reglas.js';
 import { obtenerMunicipio } from '../modelo/municipios.js';
 import { crearElemento, crearLineaDato, formatearPrecio } from './utilidadesVista.js';
@@ -21,7 +22,7 @@ const avisoVacio = porId('aviso-vacio');
 const errorAgregar = porId('error-agregar');
 const exitoAgregar = porId('exito-agregar');
 
-// Párrafo para avisos de la nube (sin internet, errores al guardar)
+// Párrafo para avisos de la nube
 const avisoDatos = crearElemento('p', '', 'mensaje-error');
 avisoDatos.classList.add('oculto');
 elementos.contenedorCatalogo.before(avisoDatos);

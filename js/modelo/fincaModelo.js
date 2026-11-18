@@ -1,5 +1,7 @@
 // Modelo de fincas: guarda los datos en memoria, los sincroniza con la nube (Supabase)
-// y deja una copia en localStorage. No toca el DOM.
+// y deja una copia en localStorage. No toca el DOM
+
+
 import * as nube from '../servicios/baseDatos.js';
 
 const CLAVE_COPIA = 'reservatufinca:fincas';
@@ -7,7 +9,7 @@ const CLAVE_COPIA = 'reservatufinca:fincas';
 let fincas = [];
 let origenDatos = 'nube'; // 'nube' o 'copia' (cuando no hay internet)
 
-// La base de datos usa snake_case; la página usa camelCase
+// La base de datos usa (((snake_case)))  ; la página usa (((camelCase)))
 function desdeFila(fila) {
     return {
         id: String(fila.id),
@@ -114,6 +116,8 @@ export async function agregarFinca(datos) {
 // Edita los campos del formulario de una finca existente
 export async function editarFinca(id, datos) {
     const original = buscarFinca(id);
+
+    
     // Si la finca tiene una sola foto, la foto y su texto alternativo siguen al formulario
     const imagenes = (original.imagenes.length === 1)
         ? [{ src: datos.imagen, alt: 'Imagen de ' + datos.nombre }]

@@ -1,4 +1,5 @@
-// Vista de los indicadores de cupos y de satisfacción. Solo dibuja lo que recibe.
+// Vista de los indicadores de cupos y de satisfacción. Solo dibuja lo que recibe
+
 import { obtenerEstadoCupos } from '../modelo/reglas.js';
 import { crearElemento, crearEstrellas } from './utilidadesVista.js';
 

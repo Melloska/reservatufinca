@@ -22,8 +22,8 @@ export function obtenerImagenesDisponibles(fincas) {
     return fincas.flatMap((finca) => finca.imagenes.map((imagen) => imagen.src));
 }
 
-// Valida el formulario de finca. Devuelve { campo, mensaje } o null si todo está bien.
-// "idActual" sirve al editar: la finca no cuenta como repetida consigo misma.
+// Valida el formulario de finca. Devuelve { campo, mensaje } o null si todo está bien
+// "idActual" sirve al editar: la finca no cuenta como repetida consigo misma
 export function validarFinca(datos, fincas, idActual = null) {
     if (datos.nombre === '') return { campo: 'nombre', mensaje: 'El nombre de la finca no puede estar vacío.' };
     if (datos.precioNoche === '') return { campo: 'precio-noche', mensaje: 'Escribe el precio por noche.' };

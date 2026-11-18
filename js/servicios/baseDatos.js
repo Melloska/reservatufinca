@@ -1,5 +1,6 @@
-// Servicio de base de datos: consume la API REST (PostgREST) de Supabase con fetch.
-// Solo habla con la nube; no toca el DOM ni guarda datos en pantalla.
+// Servicio de base de datos: consume la API REST (PostgREST) de Supabase con fetch
+// Solo habla con la nube; no toca el DOM ni guarda datos en pantalla
+
 import { SUPABASE_URL, SUPABASE_CLAVE_PUBLICA } from '../config.js';
 
 const URL_BASE = `${SUPABASE_URL}/rest/v1`;
@@ -22,7 +23,7 @@ async function pedir(ruta, opciones = {}) {
         const texto = await respuesta.text();
         return texto ? JSON.parse(texto) : null;
     } catch (error) {
-        // fetch lanza TypeError cuando no hay red
+        // fetch lanza TypeError cuando no hay red -- importante  este bloque para que la página funcione sin internet
         if (error instanceof TypeError) {
             throw new Error('No hay conexión con la base de datos. Revisa tu internet.');
         }
@@ -56,7 +57,7 @@ export function eliminarFinca(id) {
     return pedir(`fincas?id=eq.${Number(id)}`, { method: 'DELETE' });
 }
 
-// Las reservas solo se pueden crear (la base de datos no permite leerlas con esta clave)
+// Las reservas solo se pueden crear 
 export function crearReserva(datos) {
     return pedir('reservas', {
         method: 'POST',

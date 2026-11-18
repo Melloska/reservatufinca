@@ -1,4 +1,5 @@
-// Controlador de la tabla: búsqueda, filtros combinados, orden, paginación y CSV.
+// Controlador de la tabla: búsqueda, filtros combinados, orden, paginación y CSV
+
 import { obtenerFincas } from '../modelo/fincaModelo.js';
 import { CATEGORIAS, filtrarFincas, ordenarFincas, paginar, generarCSV } from '../modelo/reglas.js';
 import * as vista from '../vista/tablaVista.js';

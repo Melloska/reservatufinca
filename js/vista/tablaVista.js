@@ -1,4 +1,4 @@
-// Vista de la tabla de datos: dibuja filas, paginación y orden, y lee los filtros.
+// Vista de la tabla de datos: dibuja filas, paginación y orden, y lee los filtros
 import { crearElemento, formatearPrecio } from './utilidadesVista.js';
 
 const porId = (id) => document.getElementById(id);
@@ -67,7 +67,7 @@ export function marcarOrden(columna, direccion) {
     });
 }
 
-// Descarga un archivo CSV (con BOM para que Excel respete las tildes)
+// Descarga un archivo CSV navegador (con BOM para Excel) y lo nombra según el parámetro
 export function descargarCSV(texto, nombreArchivo) {
     const archivo = new Blob(['\uFEFF' + texto], { type: 'text/csv;charset=utf-8' });
     const enlace = document.createElement('a');

@@ -15,8 +15,9 @@ function normalizar(texto) {
     return texto.trim().toLowerCase().normalize('NFD').replace(/[\u0300-\u036f]/g, '');
 }
 
-// El municipio es lo que va después del último " - " del nombre de la finca.
-// Devuelve { clave, nombre, latitud, longitud } o null si no lo conocemos.
+// El municipio es lo que va después del último " - " del nombre de la finca
+// Devuelve { clave, nombre, latitud, longitud } o null si no lo conocemos
+
 export function obtenerMunicipio(nombreFinca) {
     const clave = normalizar(nombreFinca.split(' - ').pop());
     return MUNICIPIOS[clave] ? { clave, ...MUNICIPIOS[clave] } : null;

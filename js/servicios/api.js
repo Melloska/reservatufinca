@@ -1,4 +1,5 @@
-// Servicio del clima: consume la API REST pública de Open-Meteo (no pide clave).
+// Servicio del clima: consume la API REST pública de Open-Meteo
+
 const URL_CLIMA = 'https://api.open-meteo.com/v1/forecast';
 
 // Códigos WMO de Open-Meteo agrupados por rangos, con su emoji (y uno de noche cuando cambia)

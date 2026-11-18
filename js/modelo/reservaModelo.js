@@ -1,4 +1,4 @@
-// Modelo de reservas: guarda cada reserva en la nube y descuenta el cupo de la finca.
+// Modelo de reservas: guarda cada reserva en la nube y descuenta el cupo de la finca
 import * as nube from '../servicios/baseDatos.js';
 import { descontarCupo } from './fincaModelo.js';
 
