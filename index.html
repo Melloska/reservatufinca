@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>ReservaTuFinca - Encuentra un lugar para un descanso ideal</title>
+    <!-- Vinculación del archivo de estilos externo -->
+    <link rel="stylesheet" href="css/estilos.css">
+    <link rel="icon" href="data:,">
+</head>
+<body>
+
+    <!-- Menú superior -->
+    <header>
+        <div>
+            <h1>🌴 ReservaTuFinca 🌴</h1>
+        </div>
+        <nav>
+            <ul>
+                <li><a href="#contacto">Mi Cuenta</a></li>
+                <li><a href="#resumen-tabla">Mis Reservas</a></li>
+                <li><a href="#especificaciones">Ayuda</a></li>
+            </ul>
+        </nav>
+    </header>
+
+    <!-- Contenedor Flex -->
+    <div class="contenedor">
+
+        <!-- Menú vertical -->
+        <aside>
+            <h3>Menú</h3>
+            <nav>
+                <ul>
+                    <li><a href="#home">Inicio</a></li>
+                    <li><a href="#catalogo">Catálogo de Fincas</a></li>
+                    <li><a href="#especificaciones">Especificaciones</a></li>
+                    <li><a href="#promociones">Top 5 Fincas</a></li>
+                    <li><a href="#categorias">Categorías</a></li>
+                    <li><a href="#indicadores">Indicadores y Scores</a></li>
+                    <li><a href="#contacto">Contacto y Registro</a></li>
+                </ul>
+            </nav>
+
+            <h3>Filtrar por Categoría</h3>
+            <div id="filtros-categoria"></div>
+
+            <h3>Resumen</h3>
+            <dl>
+                <dt>Total de fincas</dt><dd id="resumen-total">0</dd>
+                <dt>Fincas agotadas</dt><dd id="resumen-agotadas">0</dd>
+                <dt>Cupos disponibles</dt><dd id="resumen-cupos">0</dd>
+                <dt>Precio promedio por noche</dt><dd id="resumen-promedio">$0 COP</dd>
+            </dl>
+        </aside>
+
+        
+        
+       
+
+        <!-- Contenido principal -->
+        <main>
+
+            <!-- Sección Home -->
+            <section id="home">
+                <h2>Encuentra y Reserva la Finca de tus Sueños</h2>
+                <p>Disfruta de la tranquilidad del campo con la <strong>máxima comodidad</strong> y la mejor atención <em>garantizada</em>.</p>
+            </section>
+
+            <!-- Catálogo de Fincas (Cargado dinámicamente o estructurado desde HTML/JS) -->
+            <section id="catalogo">
+                <h2>Catálogo de Fincas Destacadas</h2>
+
+                <form id="form-agregar" novalidate>
+                    <fieldset>
+                        <legend>Agregar una Finca al Catálogo</legend>
+                        <label for="nuevo-nombre">Nombre de la finca:</label><br>
+                        <input type="text" id="nuevo-nombre" placeholder="Ej: Finca Los Cedros - Santa Fe de Antioquia" required><br><br>
+                        <label for="nuevo-precio-noche">Precio por noche (COP):</label><br>
+                        <input type="number" id="nuevo-precio-noche" min="0" required><br><br>
+                        <label for="nuevo-precio-dia">Precio día de Sol (COP):</label><br>
+                        <input type="number" id="nuevo-precio-dia" min="0" required><br><br>
+                        <label for="nuevo-cantidad">Cupos disponibles:</label><br>
+                        <input type="number" id="nuevo-cantidad" min="0" required><br><br>
+                        <label for="nuevo-categoria">Categoría:</label><br>
+                        <select id="nuevo-categoria" required><option value="">--Seleccione una categoría--</option></select><br><br>
+                        <label for="nuevo-imagen">Imagen:</label><br>
+                        <select id="nuevo-imagen" required><option value="">--Seleccione una imagen--</option></select><br><br>
+                        <button type="submit">Agregar Finca</button>
+                        <p id="error-agregar" class="mensaje-error oculto" role="alert"></p>
+                        <p id="exito-agregar" class="mensaje-exito oculto"></p>
+                    </fieldset>
+                </form>
+
+                <p>
+                    <label for="buscador">Buscar finca:</label><br>
+                    <input type="search" id="buscador" placeholder="Escribe parte del nombre o de la descripción...">
+                </p>
+                <p id="contador-resultados"></p>
+                <p id="aviso-vacio" class="mensaje-error oculto">No se encontraron fincas con esa búsqueda.</p>
+                <div id="contenedor-fincas">
+                    <!-- Se renderiza desde la Vista con datos del Modelo -->
+                </div>
+            </section>
+
+             <!-- Tabla de datos: búsqueda, filtros, orden, paginación y CSV (la llena JavaScript) ----------->
+            <section id="resumen-tabla">
+                <h2>Resumen de Fincas Registradas</h2>
+
+                <div class="tabla-datos__filtros">
+                    <p>
+                        <label for="tabla-buscador">Buscar en la tabla:</label><br>
+                        <input type="search" id="tabla-buscador" placeholder="Nombre o descripción...">
+                    </p>
+                    <p>
+                        <label for="tabla-filtro-categoria">Categoría:</label><br>
+                        <select id="tabla-filtro-categoria">
+                            <option value="Todas">Todas</option>
+                        </select>
+                    </p>
+                    <p>
+                        <label for="tabla-filtro-estado">Estado:</label><br>
+                        <select id="tabla-filtro-estado">
+                            <option value="todos">Todos</option>
+                            <option value="disponible">Disponible</option>
+                            <option value="agotada">Agotada</option>
+                        </select>
+                    </p>
+                    <p>
+                        <button type="button" id="btn-exportar-csv">Exportar a CSV</button>
+                    </p>
+                </div>
+
+                <p id="tabla-contador"></p>
+                <div class="tabla-scroll">
+                    <table>
+                        <thead id="tabla-encabezado">
+                            <tr>
+                                <th scope="col" aria-sort="none"><button type="button" class="tabla-datos__orden" data-columna="nombre">Finca</button></th>
+                                <th scope="col" aria-sort="none"><button type="button" class="tabla-datos__orden" data-columna="categoria">Categoría</button></th>
+                                <th scope="col" aria-sort="none"><button type="button" class="tabla-datos__orden" data-columna="precioNoche">Precio por noche</button></th>
+                                <th scope="col" aria-sort="none"><button type="button" class="tabla-datos__orden" data-columna="precioDiaSol">Precio día de Sol</button></th>
+                                <th scope="col" aria-sort="none"><button type="button" class="tabla-datos__orden" data-columna="cantidad">Cupos</button></th>
+                                <th scope="col">Estado</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tabla-cuerpo"></tbody>
+                    </table>
+                </div>
+                <p id="tabla-vacia" class="mensaje-error oculto">No hay fincas que coincidan con los filtros.</p>
+
+                <nav class="tabla-datos__paginacion" aria-label="Paginación de la tabla">
+                    <button type="button" id="btn-pagina-anterior">Anterior</button>
+                    <span id="tabla-pagina">Página 1 de 1</span>
+                    <button type="button" id="btn-pagina-siguiente">Siguiente</button>
+                </nav>
+            </section>
+
+
+            <!-- Especificaciones -->
+            <section id="especificaciones">
+                <h2>Especificaciones Técnicas del Servicio</h2>
+                <dl>
+                    <dt><strong>Capacidad Máxima Permitida</strong></dt>
+                    <dd>Todas nuestras propiedades cuentan con un límite estricto de huéspedes indicados en el contrato para mayor seguridad.</dd>
+
+                    <dt><strong>Políticas de Cancelación</strong></dt>
+                    <dd>Cancelación gratuita hasta 72 horas antes de la fecha de ingreso (Check-in).</dd>
+
+                    <dt><strong>Mascotas (Pet Friendly)</strong></dt>
+                    <dd>Fincas identificadas con el sello Pet Friendly permiten el ingreso de mascotas bajo responsabilidad del titular.</dd>
+
+                    <dt><strong>Horarios de Check-in y Check-out</strong></dt>
+                    <dd>Ingreso estándar a partir de las 3:00 PM y salida máxima a las 1:00 PM.</dd>
+                </dl>
+            </section>
+
+            <!-- Promociones -->
+            <section id="promociones">
+                <h2>Top 5 Fincas Más Reservadas de la Temporada</h2>
+                <ol>
+                    <li>Finca El Paraíso - Llano Grande</li>
+                    <li>Finca Villa Romaña - Sopetrán</li>
+                    <li>Finca Las Acacias - Sopetrán</li>
+                    <li>Cabaña Mirador del Valle - Guatapé</li>
+                    <li>Hacienda Cafetera San José - Jericó</li>
+                </ol>
+            </section>
+
+            <!-- Categorías -->
+            <section id="categorias">
+                <h2>Categorías de Propiedades</h2>
+                <p><em>Haz clic en una categoría para filtrar el catálogo (clic otra vez para quitar el filtro).</em></p>
+                <ul id="lista-categorias">
+                    <li>Fincas de Clima Cálido con Piscina</li>
+                    <li>Cabañas Montañeras y Chalets</li>
+                    <li>Fincas de Lujo para Eventos y Bodas</li>
+                    <li>Alojamientos Ecológicos y Glampings</li>
+                    <li>Fincas Pet Friendly (Aptas para Mascotas)</li>
+                </ul>
+            </section>
+
+            <!-- Indicadores -->
+            <section id="indicadores">
+                <h2>Indicadores de Disponibilidad y Satisfacción</h2>
+
+                <div class="indicador">
+                    <h3>Cupos Disponibles para Fin de Semana Festivo (Stock)</h3>
+                    <p id="cupos-resumen"></p>
+                    <label for="stock-fincas">Fincas con cupos disponibles:</label><br>
+                    <progress id="stock-fincas" value="0" max="1"></progress>
+                    <p id="cupos-mensaje"></p>
+                    <div id="cupos-detalle"></div>
+                </div>
+
+                <div class="indicador">
+                    <h3>Calificación de Satisfacción de Clientes (Reviews)</h3>
+                    <p class="puntaje-grande"><span id="score-numero">0.0</span> / 5 <span id="score-estrellas" class="estrellas"></span></p>
+                    <p id="score-resumen"></p>
+                    <label for="score-satisfaccion">Puntaje promedio según huéspedes anteriores:</label><br>
+                    <meter id="score-satisfaccion" min="0" max="5" low="3" high="4" optimum="5" value="0"></meter>
+                    <div id="score-detalle"></div>
+                </div>
+
+                <h3>Tabla Comparativa de Planes de Garantía de Reserva</h3>
+                <table>
+                    <thead>
+                        <tr>
+                            <th>Servicio / Cobertura</th>
+                            <th>Plan Básico</th>
+                            <th>Plan Pro</th>
+                            <th>Plan Premium</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        <tr>
+                            <td>Reembolso por cancelación</td>
+                            <td>Hasta 50%</td>
+                            <td>Hasta 80%</td>
+                            <td>100% Garantizado</td>
+                        </tr>
+                        <tr>
+                            <td>Soporte y Atención</td>
+                            <td>Vía Email</td>
+                            <td>WhatsApp 24/7</td>
+                            <td>Agente Asignado en Vivo</td>
+                        </tr>
+                        <tr>
+                            <td>Seguro de Daños Accidentales</td>
+                            <td>No Incluido</td>
+                            <td>Hasta $500.000 COP</td>
+                            <td>Hasta $2.000.000 COP</td>
+                        </tr>
+                    </tbody>
+                    <tfoot>
+                        <tr>
+                            <td colspan="4"><em>Nota: Todos los precios e importes expuestos incluyen IVA.</em></td>
+                        </tr>
+                    </tfoot>
+                </table>
+            </section>
+
+            <!-- Contacto y Registro con Lógica de Negocio Integrada -->
+            <section id="contacto">
+                <h2>Contacto y Registro de Reserva</h2>
+
+                <form id="form-reserva">
+                    <fieldset>
+                        <legend>Datos Personales y de Contacto</legend>
+
+                        <label for="nombre">Nombre Completo:</label><br>
+                        <input type="text" id="nombre" name="nombre" placeholder="Ej: Luis Romaña" required minlength="3"><br><br>
+
+                        <label for="correo">Correo Electrónico:</label><br>
+                        <input type="email" id="correo" name="correo" placeholder="correo@ejemplo.com" required><br><br>
+
+                        <label for="telefono">Teléfono de Contacto:</label><br>
+                        <input type="tel" id="telefono" name="telefono" required pattern="[0-9]{7,10}" title="Escribe entre 7 y 10 números, sin espacios ni guiones"><br><br>
+
+                        <label for="direccion">Dirección:</label><br>
+                        <input type="text" id="direccion" name="direccion" required minlength="5"><br><br>
+                    </fieldset>
+
+                    <br>
+
+                    <fieldset>
+                        <legend>Detalles de la Reserva (Lógica de Negocio)</legend>
+
+                        <label for="finca-select">Selecciona la Finca:</label><br>
+                        <select id="finca-select" name="finca-select" required>
+                            <option value="">--Seleccione una finca--</option>
+                        </select><br><br>
+
+                        <label for="tipo-servicio">Tipo de Servicio:</label><br>
+                        <select id="tipo-servicio" name="tipo-servicio" required>
+                            <option value="noche">Estadía por Noche(s)</option>
+                            <option value="dia">Día de Sol</option>
+                        </select><br><br>
+
+                        <label for="cantidad">Cantidad (Noches o Días):</label><br>
+                        <input type="number" id="cantidad" name="cantidad" min="1" max="30" value="1" required><br><br>
+
+                        <label for="metodo-pago">Selecciona el Método de Pago:</label><br>
+                        <select id="metodo-pago" name="metodo-pago" required>
+                            <option value="">--Seleccione una opción--</option>
+                            <option value="Tarjeta de Crédito / Débito">Tarjeta de Crédito / Débito</option>
+                            <option value="Transferencia PSE">Transferencia PSE</option>
+                            <option value="Efectivo / SuRed / Efecty">Efectivo / SuRed / Efecty</option>
+                        </select><br><br>
+
+                        <label for="instrucciones">Instrucciones Adicionales o peticiones:</label><br>
+                        <textarea id="instrucciones" name="instrucciones" rows="4" placeholder="Escribe aquí hora estimada de llegada, requerimientos especiales, etc."></textarea><br><br>
+
+                        <!-- Cálculo Dinámico de Negocio -->
+                        <div class="caja-cotizacion">
+                            <h3>Resumen de Cotización</h3>
+                            <p>Total a pagar: <strong id="precio-calculado">$0 COP</strong></p>
+                        </div>
+
+                        <button type="submit" id="btn-submit">Confirmar Registro y Reserva</button>
+                    </fieldset>
+                </form>
+
+                <!-- Mensaje de respuesta del sistema -->
+                <div id="resultado-reserva" class="mensaje-exito oculto"></div>
+            </section>
+
+
+                        <section id="mensaje-contacto">
+                <h2>Escríbenos un Mensaje</h2>
+                <form id="form-contacto">
+                    <label for="contacto-nombre">Nombre:</label><br>
+                    <input type="text" id="contacto-nombre" required minlength="3"><br><br>
+
+                    <label for="contacto-correo">Correo electrónico:</label><br>
+                    <input type="email" id="contacto-correo" required><br><br>
+
+                    <label for="contacto-telefono">Teléfono:</label><br>
+                    <input type="tel" id="contacto-telefono" required pattern="[0-9]{7,10}" title="Escribe entre 7 y 10 números"><br><br>
+
+                    <label for="contacto-texto">Mensaje:</label><br>
+                    <textarea id="contacto-texto" rows="4" required minlength="10"></textarea><br><br>
+
+                    <button type="submit">Enviar mensaje</button>
+                </form>
+                <div id="resultado-contacto" class="mensaje-exito oculto"></div>
+            </section>
+
+            
+        </main>
+    </div>
+
+    <!-- Pie de página -->
+    <footer>
+        <div>
+            <h3>Dirección Física</h3>
+            <address>
+                <strong>ReservaTuFinca S.A.S.</strong><br>
+                Calle 10 # 42-15, Poblado<br>
+                Medellín, Antioquia - Colombia<br>
+                Contacto: contacto@reservatufinca.com
+            </address>
+        </div>
+    
+
+        <div>
+            <h3>Redes Sociales</h3>
+            <ul>
+                <li><a href="https://www.instagram.com" target="_blank">Instagram</a></li>
+                <li><a href="https://www.facebook.com" target="_blank">Facebook</a></li>
+                <li><a href="https://wa.me" target="_blank">WhatsApp</a></li>
+            </ul>
+        </div>
+
+        <div>
+            <p class="copyright-texto">&copy; 2026 ReservaTuFinca.</p>
+        </div>
+    </footer>
+
+    <!-- Vinculación de la lógica MVC en JavaScript -->
+    <script type="module" src="js/app.js"></script>
+</body>
+</html>
